@@ -63,7 +63,7 @@ Clear-EventLog Security
 Write-Host "Clearing the Windows Update Cache"
 reg add "HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot\$SafeMode\WUAUSERV" /ve /t reg_sz /d Service /f >> $LogFile
 net stop WUAUSERV >> $LogFile
-Remove-Item C:\Windows\SoftwareDistribution\Download -ErrorAction SilentlyContinue
+Remove-Item C:\Windows\SoftwareDistribution\Download -Recurse -ErrorAction SilentlyContinue
 net start WUAUSERV >> $LogFile
 
 ########################
