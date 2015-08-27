@@ -304,7 +304,7 @@ running disk-intensive operations like defrag.
 	
 # Create A Restore point
 Write-Host "Creating a Restore Point, please wait... `n `n"
-Enable-ComputerRestore
+Enable-ComputerRestore -Drive $env:SYSTEMDRIVE
 Checkpoint-Computer -Description "TronEvo"
 
 # Get system state
@@ -334,13 +334,13 @@ Write-Host "Downloading McAfee Stinger"
 Invoke-WebRequest http://downloadcenter.mcafee.com/products/mcafee-avert/Stinger/stinger32.exe -OutFile $TempPath\Stinger.exe
 Write-Host "Stinger does not write to Tron...need to make a raw log"
 Write-Host "Starting Stinger"
-Start-Process $TempPath\stinger.exe --GO --SILENT --PROGRAM --REPORTPATH="$RawLogPath" --DELETE
+& $TempPath\stinger.exe --GO --SILENT --PROGRAM --REPORTPATH="$RawLogPath" --DELETE
 
 # Run TDSS Killer
 Write-Host "Downloading Kaspersky TDSS Killer"
 Invoke-WebRequest http://media.kaspersky.com/utilities/VirusUtilities/EN/tdsskiller.exe -OutFile $TempPath\TDSS.exe
 Write-Host "Starting TDSS Killer"
-$TempPath\TDSS.exe -l $TempPath\tdsskiller.log -silent -tdlfs -dcexact -accepteula -accepteulaksn
+& $TempPath\TDSS.exe -l $TempPath\tdsskiller.log -silent -tdlfs -dcexact -accepteula -accepteulaksn
 Get-Content $TempPath\tdsskiller.log >> $LogFile
 Remove-Item $TempPath\tdsskiller.log
 
@@ -351,8 +351,8 @@ Write-Host "Old VSS Purged" >> $LogFile
 
 # Reduce System Restore Space
 Write-Host "Reducing System Restore to max of 7% of disk"
-reg.exe add "\\%COMPUTERNAME%\HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SystemRestore" /v DiskPercent /t REG_DWORD /d 00000007 /f>> $LogFile
-reg.exe add "\\%COMPUTERNAME%\HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SystemRestore\Cfg" /v DiskPercent /t REG_DWORD /d 00000007 /f>> $LogFile
+reg.exe add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SystemRestore" /v DiskPercent /t REG_DWORD /d 00000007 /f >> $LogFile
+reg.exe add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SystemRestore\Cfg" /v DiskPercent /t REG_DWORD /d 00000007 /f >> $LogFile
 
 ###########################
 ##    STAGE 0 COMPLETE   ##
