@@ -53,7 +53,7 @@
 	#####################
 	
 $ScriptVersion = '0.0.1'
-$ScriptDate = '2015-08-07'
+$ScriptDate = '2015-08-27'
 
 # We need to make some assumptions here
 $SSD = "False"
