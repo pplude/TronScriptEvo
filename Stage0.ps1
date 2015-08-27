@@ -360,4 +360,4 @@ reg.exe add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SystemRestore\Cfg
 
 ## NOW WE NEED TO BOOTSTRAP STAGE 1 ##
 
-# Start-Process .\Stage1.PS1
+.\Stage1.PS1
