@@ -1,15 +1,13 @@
-# TronScriptEvo
-TRON Script: Evolution
+# TronScript:Evolution
+Welcome to TRON Script: Evolution. This is an attempt to update TRON Script to PowerShell. We are targeting Windows 8 as an initial deployment target. This is just getting started so we need to get the basic script up and working.
+
+I'm Using Dell PowerGUI to develop the script. This will eventually allow me to sign the script and "compile" an executable file for distribution. For best results when editing, please use the same editor. Also opens and auto-completes in PowerShell ISE for v2 or later.
 
 # Usage:
 
  1. Set the Powershell execution policy to **UNRESTRICTED**
  2. Download only **Core.ps1**
  3. Run Core.ps1 in an administrative Powershell instance
-
-Welcome to TRON Script: Evolution. This is an attempt to update TRON Script to PowerShell. We are targeting Windows 8 as an initial deployment target. This is just getting started so we need to get the basic script up and working.
-
-I'm Using Dell PowerGUI to develop the script. This will eventually allow me to sign the script and "compile" an executable file for distribution. For best results when editing, please use the same editor. Also opens and auto-completes in PowerShell ISE for v2 or later.
 
 # Errata
 * There is no RKill, I don't have a good reposiorty for it
