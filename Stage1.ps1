@@ -1,6 +1,20 @@
-########################
-## STAGE 1: TEMPCLEAN ##
-########################
+####################
+##  WINDOW SETUP  ##
+####################
+Clear-Host
+$Host.UI.RawUI.WindowTitle = ("TRON:Evo Stage 1: TempClean")
+
+##################
+##  LOG HEADER  ##
+##################
+
+Write-Host "----------------------------"
+Write-Host "     STAGE 1: TEMP CLEAN    "
+Write-Host "----------------------------"
+
+#################
+##  VARIABLES  ##
+#################
 
 $TempFolders = @("C:\Windows\Temp\*","$env:TEMP","C:\Windows\Prefetch\*","C:\Users\Users\*\AppData\Local\Temp\*","C:\Users\*\AppData\Roaming\Microsoft\Windows\Recent\*","C:\Users\*\AppData\Local\Microsoft\Windows\Temporary Internet Files\*","C:\Users\*\My Documents\*.tmp")
 $DriverFolders = @("C\NVIDIA","C\ATI","C\AMD","C\DELL","C\Intel","C\HP")
@@ -8,16 +22,16 @@ $UpdateBG = @("C:\Windows\*.log","C:\Windows\*.txt","C:\Windows\*.bmp","C:\Windo
 $FlashCache = @("C:\Users\Users\*\AppData\Roaming\Macromedia\Flash Player\#SharedObjects","C:\Users\Users\*\AppData\Roaming\Macromedia\Flash Player\macromedia.com\support\flashplayer\sys")
 
 Clear-Host
-Write-Host "STAGE 1: Temporary Files Cleanup `n `n `n" >> $LogFile
+Write-Host "STAGE 1: Temporary Files Cleanup `n `n `n" 
 
 # Clean Internet Explorer
-Write-Host "Cleaning Internet Explorer" >> $LogFile
+Write-Host "Cleaning Internet Explorer" 
 rundll32.exe inetcpl.cpl,ClearMyTracksByProcess 4351
 
 # Temp File Cleanup
 Write-Host "Cleaning User Files `n"
 Remove-Item -Path $TempFolders -Force -Recurse -ErrorAction SilentlyContinue
-Write-Host "Finished Cleaning: $TempFolders `n" >> $LogFile
+Write-Host "Finished Cleaning: $TempFolders `n" 
 
 # Clean System Files
 Write-Host "Cleaning System Files"
@@ -61,13 +75,21 @@ Clear-EventLog Security
 
 # Clear Windows Update Cache
 Write-Host "Clearing the Windows Update Cache"
-reg add "HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot\$SafeMode\WUAUSERV" /ve /t reg_sz /d Service /f >> $LogFile
-net stop WUAUSERV >> $LogFile
+reg add "HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot\$SafeMode\WUAUSERV" /ve /t reg_sz /d Service /f 
+net stop WUAUSERV 
 Remove-Item C:\Windows\SoftwareDistribution\Download -Recurse -ErrorAction SilentlyContinue
-net start WUAUSERV >> $LogFile
+net start WUAUSERV 
+
+# Purge oldest VSS copies
+net start VSS
+vssadmin.exe delete shadows /for=$env:SystemDrive /oldest /quiet
+Write-Host "Old VSS Purged" 
+
+# Reduce System Restore Space
+Write-Host "Reducing System Restore to max of 7% of disk"
+reg.exe add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SystemRestore" /v DiskPercent /t REG_DWORD /d 00000007 /f 
+reg.exe add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SystemRestore\Cfg" /v DiskPercent /t REG_DWORD /d 00000007 /f 
 
 ########################
 ##  STAGE 1 COMPLETE  ##
 ########################
-
-Write-Host "Temp Clean Complete `n `n `n ------------------------------------------------"
