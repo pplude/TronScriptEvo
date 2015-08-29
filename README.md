@@ -1,11 +1,18 @@
 # TronScriptEvo
 TRON Script: Evolution
 
+# Usage:
+ 1) Set the Powershell execution policy to **UNRESTRICTED**
+ 2) Download only **Core.ps1**
+ 3) Run Core.ps1 in an administrative Powershell instance
+
 Welcome to TRON Script: Evolution. This is an attempt to update TRON Script to PowerShell. We are targeting Windows 8 as an initial deployment target. This is just getting started so we need to get the basic script up and working.
 
 I'm Using Dell PowerGUI to develop the script. This will eventually allow me to sign the script and "compile" an executable file for distribution. For best results when editing, please use the same editor. Also opens and auto-completes in PowerShell ISE for v2 or later.
 
-OK, **HUGE** note here. PLEASE READ
-You need an internet connection. The script silently fails if you are offline and does not run the tools. I will add in a disclaimer and an error later, but I just want to get the core functionality up first.
-
-Download all PS1 (powershell) files to a directory, set the execution mode to unrestricted, and run.
+# Errata
+(*) There is no RKill, I don't have a good reposiorty for it
+(*) Same thing with ProcessKiller, I hope to have these fixed soon!
+(*) This is NOT reboot safe. Do not restart in the middle or you will have to stop again
+(*) WMIC is no longer a reliable way to uninstall software. I will work on something new where I can, this may need to move to an outside utility.
+(*) The Log is wonky, but it works, and is not as verbose as it used to be
