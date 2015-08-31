@@ -85,11 +85,11 @@ Get-ChildItem C:\Users -recurse | select -expand fullname >> $RawLogPath\FilesBe
 ##  SET POWER MANAGEMENT  ##
 ############################
 
-Write-Host "Disabling Screen Saver."
-reg.exe add "HKEY_CURRENT_USER\Control Panel\Desktop" /v ScreenSaveActive /t REG_SZ /d 0 /f >> "$LogFile"
-Write-Host "Disabling Sleep."
-powercfg.exe -S SCHEME_MIN
-Write-Host "High-Performance Activated" 
+Write-Host "Downloading Caffeine to prevent sleep"
+Invoke-WebRequest "http://www.zhornsoftware.co.uk/caffeine/caffeine.zip" -OutFile $TempPath\Caf.zip
+Expand-Archive -Path $TempPath\Caf.zip -DestinationPath $TempPath
+Write-Host "Running Caffeine"
+$TempPath\caffeine.exe
 
 ###############################
 ##  SYNCHRONIZE SYSTEM CLOCK ##
