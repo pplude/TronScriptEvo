@@ -13,9 +13,8 @@ Write-Host "       STAGE 7: CLEANUP     "
 Write-Host "----------------------------"
 
 # Restore power settings
-Write-Host "Set Power Settings to Balanced"
-powercfg.exe -S SCHEME_BALANCED
-reg.exe add "HKEY_CURRENT_USER\Control Panel\Desktop" /v ScreenSaveActive /t REG_SZ /d 1 /f
+Write-Host "Quitting Caffeine"
+TASKKILL.EXE /IM caffeine.exe #This is more reliable then using the PID
 # Remove TRON Temp files
 Write-Host "Cleaning TRON:Evo Temp Files"
 Remove-Item $RawLogPath -Recurse -Force
