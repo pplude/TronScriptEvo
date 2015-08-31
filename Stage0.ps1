@@ -19,8 +19,18 @@ Write-Host "----------------------------"
 Write-Host "Verifing that Chocolatey is installed."
 if(Test-Path("C:\ProgramData\chocolatey\choco.exe"))
 {
-    $chocover = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("C:\ProgramData\chocolatey\choco.exe").FileVersion
-    Write-Host "Chocolatey $chocover already installed."
+    $chocoinstver = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("C:\ProgramData\chocolatey\choco.exe").FileVersion
+    Write-Host "Chocolatey $chocoinstver already installed. Checking for updates."
+    choco.exe upgrade chocolatey -y | Out-Null
+    $chocoupgver = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("C:\ProgramData\chocolatey\choco.exe").FileVersion
+    if($chocoinstver -eq $chocoupgver)
+    {
+        Write-Host "Chocolatey is already at the latest version."
+    }
+    else
+    {
+        Write-Host "Chocolatey has been upgraded from $chocoinstver to $chocoupgver."
+    }
 }
 else
 {
