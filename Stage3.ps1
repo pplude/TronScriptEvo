@@ -44,7 +44,7 @@ Write-Host "You MUST click SCAN in the window! `n `n"
 Write-Host "Downloading Kaspersky Virus Removal Tool"
 Invoke-WebRequest "http://devbuilds.kaspersky-labs.com/devbuilds/KVRT/latest/full/KVRT.exe" -OutFile "$TempPath\KVRT.exe"
 Write-Host "Running Kaspersky Virus Removal Tool"
-& $TempPath\KVRT.exe -d "$RawLogPath" -accepteula -adinsilent -silent -processlevel 2 -dontcryptsupportinfo
+Start-Process $TempPath\KVRT.exe -d "$RawLogPath" -accepteula -adinsilent -silent -processlevel 2 -dontcryptsupportinfo
 
 # Sophos Virus Removal Tool
 <# DISABLING -- THIS NEEDS INSTALLATION ??
