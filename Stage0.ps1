@@ -35,7 +35,7 @@ if(Test-Path("C:\ProgramData\chocolatey\choco.exe"))
 else
 {
     Write-Host "Chocolatey not installed, installing."
-    Invoke-Expression ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))
+    Invoke-Expression ((New-Object Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
 	Write-Host "Chocolatey has been installed"
 }
 
