@@ -29,7 +29,7 @@ WMIC.exe computersystem set AutomaticManagedPagefile=True
     -Analyze -SlabConsolidate -Retrim.
     -- SSD without TRIM support, Removable FAT, Unknown. No operation. #>
 	
-Optimize-Volume $Env:SYSTEMDRIVE
+Optimize-Volume C
 
 
 ###########################
