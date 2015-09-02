@@ -59,13 +59,6 @@ $FreeSpaceLabel=@{Label='Free Space (GB)'; expression={($_.freespace)/1gb};forma
 $PreRunFreeSpace = (Get-WmiObject Win32_LogicalDisk | Format-Table Name, $FreeSpaceLabel -AutoSize)	# Prints table of free space
 $SafeMode = (Get-WmiObject Win32_ComputerSystem | Select-Object BootupState | foreach {$_.BootupState}) # Get the runmode of Windows
 
-#############################
-##  SCRIPT BASE VARIABLES  ##
-#############################
-
-$SSD = "False" # Start by assuming that there is no SSD
-$RAID = "False" # Start by assuming you are not in RAID
-
 #########################
 ##  PERMISSIONS CHECK  ##
 #########################

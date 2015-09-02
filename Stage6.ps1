@@ -16,30 +16,21 @@ Write-Host "----------------------------"
 Write-Host "Resetting page file settings to Windows defaults..."
 WMIC.exe computersystem set AutomaticManagedPagefile=True
 
-# Detect if you are running an SSD Drive
-If ((Get-PhysicalDisk | Select-Object MediaType | foreach {$_.MediaType} | Select-String -Pattern 'SSD' -SimpleMatch -Quiet) -eq "True")
-	{
-		$SSD = "True"
-	}
-	
-# Detect if you are running RAID
-If ((Get-PhysicalDisk | Select-Object MediaType | foreach {$_.MediaType} | Select-String -Pattern 'RAID' -SimpleMatch -Quiet) -eq "True")
-	{
-		$RAID = "True"
-	}	
+# Optimize the Volume
+<# The Optimize-Volume cmdlet optimizes a volume, performing such tasks on supported volumes and system SKUs as
+    defragmentation, trim, slab consolidation, and storage tier processing.
 
-# Check for Defrag
-If (($SSD -eq "True") -or ($RAID -eq "True"))
-	{
-		Write-Host "Skipping Defrag"
-	}
-Else 
-	{
-		Write-Host "Updating/Installing Defraggler"
-		choco.exe upgrade defraggler -y
-		Write-Host "Defragging Drive"
-		& 'C:\Program Files\Defraggler\df.exe' $env:SYSTEMDRIVE /MinPercent 5
-	}
+     If no parameter is specified, then the default operation will be performed per the drive type as follows.
+
+    -- HDD, Fixed VHD, Storage Space. -Analyze -Defrag.
+    -- Tiered Storage Space. -TierOptimize.
+    -- SSD with TRIM support. -Retrim.
+    -- Storage Space (Thinly provisioned), SAN Virtual Disk (Thinly provisioned), Dynamic VHD, Differencing VHD.
+    -Analyze -SlabConsolidate -Retrim.
+    -- SSD without TRIM support, Removable FAT, Unknown. No operation. #>
+	
+Optimize-Volume $Env:SYSTEMDRIVE
+
 
 ###########################
 ##    STAGE 6 COMPLETE   ##
