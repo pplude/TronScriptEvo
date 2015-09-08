@@ -15,6 +15,7 @@ Write-Host "----------------------------"
 ##########################
 ##  INSTALL CHOCOLATEY  ##
 ##########################
+$chocoUFlag = $false
 
 Write-Host "Verifing that Chocolatey is installed."
 if(Test-Path("C:\ProgramData\chocolatey\choco.exe"))
@@ -31,6 +32,7 @@ if(Test-Path("C:\ProgramData\chocolatey\choco.exe"))
     {
         Write-Host "Chocolatey has been upgraded from $chocoinstver to $chocoupgver."
     }
+    $chocoUFlag = $true
 }
 else
 {
