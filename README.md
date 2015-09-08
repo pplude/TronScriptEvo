@@ -8,7 +8,63 @@ I'm Using Dell PowerGUI to develop the script. This will eventually allow me to 
  1. Set the Powershell execution policy to **UNRESTRICTED**
  2. Download only **Core.ps1**
  3. Run Core.ps1 in an administrative Powershell instance
+ 
+### Stages:
+*Stage0 | Prep*: 
+ 1. Install Chocolatey; Download and Install Chocolatey - Used for installation of various softwares
+ 2. Enable F8 at Boot; Enables legacy boot options.
+ 3. Get SMART Status; Get various details of Physical Drive from S.M.A.R.T.
+ 4. Create Restore Point
+ 5. Get System State; Builds a list of applications/software installed on the machine as well as a directory structure of the Users folder.
+ 6. Run Caffeiene; Prevents the computer from entering a sleep state.
+ 7. Sync System Clock; Sets the OS Clock to the correct time using official windows NTP.
 
+*Stage1 | Temp Clean*:
+ 1. Clean Internet Exploer; History, Cache, ect.
+ 2. Clear Junk Files; Clear Temp Drivers, Flash Cache, Recycle Bin, ect.
+ 3. CCLeaner; Run CCleaner in Auto mode
+ 4. Bleachbit; Various thorough temp cleaning
+ 5. Clear Event Logs; Removes Event logs 
+ 6. Clear Win Update Cache; Clears Cached files from Windows Update to free up space.
+ 7. Purge Oldest VSS Copies; Removes old Volume Shadowing files to free up space.
+ 8. Reduce System Restore Space; Reduces used space to 7% by System Restore.
+
+*Stage2 | De-Bloat*:
+ 1. Remove Software; Removes software via WMIC by list | See AppsByName.txt
+ 2. Remove Apps By GUID; Removes Installed software VIA MSIEXEC based on known GUIDs.
+ 3. Cleanup METO Apps?
+
+*Stage3 | Disinfect*:
+ 1. Run McAfee Stinger; scans for specific malware.
+ 2. TDSSKiller; Kaspersky TDSSKiller, scans and removes specific malware.
+ 3. RogueKiller; Scans and removes Malware using RogueKiller(GUI) Version)
+ 4. Malwarebytes; Manual malware scan with Malwarebytes if installed.
+ 5. Kaspersky Virus Removal Tool; Scan and remove malware with KVRT.
+ 
+`6. Sophos Virus Removal Tool; Scan and Remove Malware *DISABLED*`
+
+*Stage4 | Repair*:
+ 1. DISM Cleanup; Cleans up the WinSxS folder and Repair component store corruption
+ 2. Reset File-System Permissions
+ 3. Security database Repair; Using secedit to compare against recommended template confirugation
+ 4. SFC Scan; Using System File Checker to repair missing or corrupted system files.
+ 5. Check Disk; Checks disk with chkdsk.exe and forces fix on reboot if errors are found.
+
+*Stage5 | Updates*:
+ 1. Allow MSI in Safe-Mode; Allows MSI to be installed while in safe-mode.
+ 2. Chocolatey upgrade; Upgrade various software using Chocolatey `7zip flashplayerplugin adobereader jre8`
+ 3. Windows Updates; Perform windows updates
+ 4. Reset Windows Datastore; Using DISM
+
+*Stage6 | Optimize*:
+ 1. Reset Page-File; Resets Page-File to be handled by OS.
+ 2. Optimize-Volume; Optimize-Volume cmdlet optimizes a volume, performing such tasks on supported volumes and system SKUs as defragmentation, trim, slab consolidation, and storage tier processing.
+
+*Stage7 | Cleanup*:
+ 1. Restore Power Settings; Quit Caffeiene.
+ 2. Uninstall Chocolatey; Uninstalls Chocolatey if it was installed from TronScriptEvo.
+ 3. Remove TronScriptEvo specific Files.
+ 
 # Errata
 * There is no RKill, I don't have a good reposiorty for it
 * Same thing with ProcessKiller, I hope to have these fixed soon!
