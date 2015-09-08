@@ -42,6 +42,12 @@
 					ProcessKiller is the same as above.
 #>
 
+######################
+##  .NET LIBRARIES  ##
+######################
+
+[System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms") 
+
 ########################
 ##  GLOBAL VARIABLES  ##
 ########################
@@ -120,34 +126,12 @@ Clear-Host
 
 If ($SafeMode -eq "Normal Boot")
 	{
-		Write-Host "WARNING
-
-The system is not in safe mode. Tron functions best
-in Safe Mode with Networking in order to download
-Windows and anti-virus updates.
-		
-Tron should still run OK, but if you have infections
-or problems after running, recommend booting to
-Safe Mode with Networking and re-running.
-
-"
-		Write-Host "Press any key to continue..."
-		$null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')
-		Clear-Host
+		[System.Windows.Forms.MessageBox]::Show("The system is not in safe mode. Tron functions best in Safe Mode with Networking in order to download Windows and anti-virus updates. `n `n Tron should still run OK, but if you have infections or problems after running, recommend booting to Safe Mode with Networking and re-running.", "WARNING") | Out-Null
 	}
 	
 If ($SafeMode -eq "Fail-safe boot")
 	{
-		Write-Host "WARNING
-
-The system is in Safe Mode without Network support.
-Tron:Evo does not function in this mode. Please boot
-into Windows normally or using the Safe Mode with 
-Networking option.
-
-"
-		Write-Host "Press any key to continue..."
-		$null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')
+		[System.Windows.Forms.MessageBox]::Show("The system is in Safe Mode without Network support. Tron:Evo does not function in this mode. Please boot into Windows normally or using the Safe Mode with Networking option." , "WARNING") | Out-Null
 		[Environment]::Exit(4)
 	}
 	
