@@ -40,6 +40,7 @@ else
     Invoke-Expression ((New-Object Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
 	Write-Host "Chocolatey has been installed"
 }
+
 #########################
 ##  ENABLE F8 AT BOOT  ##
 #########################
