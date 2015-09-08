@@ -1,20 +1,12 @@
 <# 
-	PURPOSE: 		The purpose of this script is to create an easy to use 
-					cleaner for various system issues that are commonly s
-					encountered. This script will use both Windows built-in 
-					tools and various third party cleaners to disinfect a 
-					Windows machine running 8.0 or later.
-				
-	REQUIREMENTS:
-					Administrator access - Local administrator account 
+   REQUIREMENTS:   Administrator access - Local administrator account 
 					PowerShell Execution Policy - Unrestricted
 					Safe-Mode on the computer (recommended)
 					
 	AUTHOR: 		Based on TRON script batch file by vocatus on /r/TronScript
 					Initial port to PowerShell by pplude on /r/TronScriptEvo
 	
-	VERSION:		Initial Version 0.8
-						Convert core of TRON to PowerShell
+	VERSION:		Initial Version 0.8.2
 						
 	USAGE:			Set the Execution Policy, run as Admin, and reboot
 	
@@ -32,14 +24,6 @@
 					4 - Safe mode failure
 					5 - Bad EULA
 					6 - Bad Admin Rights
-					
-	ERRATA:
-					Script is **NOT** Reboot-tolerant
-					RKILL is not in this version - if chocolatey does not supply
-						it, it isn't needed. Besides, vanilla TRON has been
-						struggling with issues with this component for several
-						versions now, better to avoid that hassle.
-					ProcessKiller is the same as above.
 #>
 
 ######################
@@ -52,7 +36,7 @@
 ##  GLOBAL VARIABLES  ##
 ########################
 
-$ScriptVersion = "0.8.0" # Major.Minor.Errata
+$ScriptVersion = "0.8.2" # Major.Minor.Errata
 $ScriptDate = "2015-08-28" # Commit date for Core.PS1, YYYY-MM-DD
 
 $EvoRepo = "https://raw.githubusercontent.com/pplude/TronScriptEvo/master" # USE THIS FOR RELEASE VERSION
