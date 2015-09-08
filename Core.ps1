@@ -56,9 +56,7 @@ $SafeMode = (Get-WmiObject Win32_ComputerSystem | Select-Object BootupState | fo
 # This will test to see if the user is admin, and terminate the script if it fails the user rights check
 If (!([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator"))
 	{
-		Write-Host "User is not running as administrator. `n `n Please run this script through an Administrative Powershell. `n"
-		Write-Host "Press any key to continue..."
-		$null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')
+		[System.Windows.Forms.MessageBox]::Show("User is not running as administrator. `n `n Please run this script through an Administrative Powershell.", "ERROR") | Out-Null
 		[Environment]::Exit(6)
 	}
 	
@@ -115,7 +113,7 @@ If ($SafeMode -eq "Normal Boot")
 	
 If ($SafeMode -eq "Fail-safe boot")
 	{
-		[System.Windows.Forms.MessageBox]::Show("The system is in Safe Mode without Network support. Tron:Evo does not function in this mode. Please boot into Windows normally or using the Safe Mode with Networking option." , "WARNING") | Out-Null
+		[System.Windows.Forms.MessageBox]::Show("The system is in Safe Mode without Network support. Tron:Evo does not function in this mode. Please boot into Windows normally or using the Safe Mode with Networking option." , "ERROR") | Out-Null
 		[Environment]::Exit(4)
 	}
 	
