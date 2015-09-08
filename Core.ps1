@@ -1,20 +1,12 @@
 <# 
-	PURPOSE: 		The purpose of this script is to create an easy to use 
-					cleaner for various system issues that are commonly s
-					encountered. This script will use both Windows built-in 
-					tools and various third party cleaners to disinfect a 
-					Windows machine running 8.0 or later.
-				
-	REQUIREMENTS:
-					Administrator access - Local administrator account 
+   REQUIREMENTS:   Administrator access - Local administrator account 
 					PowerShell Execution Policy - Unrestricted
 					Safe-Mode on the computer (recommended)
 					
 	AUTHOR: 		Based on TRON script batch file by vocatus on /r/TronScript
 					Initial port to PowerShell by pplude on /r/TronScriptEvo
 	
-	VERSION:		Initial Version 0.8
-						Convert core of TRON to PowerShell
+	VERSION:		Initial Version 0.8.2
 						
 	USAGE:			Set the Execution Policy, run as Admin, and reboot
 	
@@ -32,21 +24,19 @@
 					4 - Safe mode failure
 					5 - Bad EULA
 					6 - Bad Admin Rights
-					
-	ERRATA:
-					Script is **NOT** Reboot-tolerant
-					RKILL is not in this version - if chocolatey does not supply
-						it, it isn't needed. Besides, vanilla TRON has been
-						struggling with issues with this component for several
-						versions now, better to avoid that hassle.
-					ProcessKiller is the same as above.
 #>
+
+######################
+##  .NET LIBRARIES  ##
+######################
+
+[System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms") 
 
 ########################
 ##  GLOBAL VARIABLES  ##
 ########################
 
-$ScriptVersion = "0.8.0" # Major.Minor.Errata
+$ScriptVersion = "0.8.2" # Major.Minor.Errata
 $ScriptDate = "2015-08-28" # Commit date for Core.PS1, YYYY-MM-DD
 
 $EvoRepo = "https://raw.githubusercontent.com/pplude/TronScriptEvo/master" # USE THIS FOR RELEASE VERSION
@@ -66,9 +56,7 @@ $SafeMode = (Get-WmiObject Win32_ComputerSystem | Select-Object BootupState | fo
 # This will test to see if the user is admin, and terminate the script if it fails the user rights check
 If (!([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator"))
 	{
-		Write-Host "User is not running as administrator. `n `n Please run this script through an Administrative Powershell. `n"
-		Write-Host "Press any key to continue..."
-		$null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')
+		[System.Windows.Forms.MessageBox]::Show("User is not running as administrator. `n `n Please run this script through an Administrative Powershell.", "ERROR") | Out-Null
 		[Environment]::Exit(6)
 	}
 	
@@ -120,34 +108,12 @@ Clear-Host
 
 If ($SafeMode -eq "Normal Boot")
 	{
-		Write-Host "WARNING
-
-The system is not in safe mode. Tron functions best
-in Safe Mode with Networking in order to download
-Windows and anti-virus updates.
-		
-Tron should still run OK, but if you have infections
-or problems after running, recommend booting to
-Safe Mode with Networking and re-running.
-
-"
-		Write-Host "Press any key to continue..."
-		$null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')
-		Clear-Host
+		[System.Windows.Forms.MessageBox]::Show("The system is not in safe mode. Tron functions best in Safe Mode with Networking in order to download Windows and anti-virus updates. `n `n Tron should still run OK, but if you have infections or problems after running, recommend booting to Safe Mode with Networking and re-running.", "WARNING") | Out-Null
 	}
 	
 If ($SafeMode -eq "Fail-safe boot")
 	{
-		Write-Host "WARNING
-
-The system is in Safe Mode without Network support.
-Tron:Evo does not function in this mode. Please boot
-into Windows normally or using the Safe Mode with 
-Networking option.
-
-"
-		Write-Host "Press any key to continue..."
-		$null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')
+		[System.Windows.Forms.MessageBox]::Show("The system is in Safe Mode without Network support. Tron:Evo does not function in this mode. Please boot into Windows normally or using the Safe Mode with Networking option." , "ERROR") | Out-Null
 		[Environment]::Exit(4)
 	}
 	
