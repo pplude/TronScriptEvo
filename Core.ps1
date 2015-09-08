@@ -26,6 +26,11 @@
 					6 - Bad Admin Rights
 #>
 
+##################
+##  PARAMETERS  ##
+##################
+Param([Switch] $SkipKaspersky)
+
 ######################
 ##  .NET LIBRARIES  ##
 ######################

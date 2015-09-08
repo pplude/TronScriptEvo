@@ -40,11 +40,18 @@ Write-Host "Running Malwarebytes - This will open a new Window"
 Start-Process "C:\Program Files (x86)\Malwarebytes Anti-Malware\mbam.exe"
 Write-Host "You MUST click SCAN in the window! `n `n"
 
-# Kaspersky Virus Removal Tool
-Write-Host "Downloading Kaspersky Virus Removal Tool"
-Invoke-WebRequest "http://devbuilds.kaspersky-labs.com/devbuilds/KVRT/latest/full/KVRT.exe" -OutFile "$TempPath\KVRT.exe"
-Write-Host "Running Kaspersky Virus Removal Tool"
-Start-Process $TempPath\KVRT.exe -d "$RawLogPath" -accepteula -adinsilent -silent -processlevel 2 -dontcryptsupportinfo
+If ($SkipKaspersky.IsPresent)
+	{
+		Write-Host "Skip Kaspersky Selected...Moving on"
+	}
+Else
+	{
+		# Kaspersky Virus Removal Tool
+		Write-Host "Downloading Kaspersky Virus Removal Tool"
+		Invoke-WebRequest "http://devbuilds.kaspersky-labs.com/devbuilds/KVRT/latest/full/KVRT.exe" -OutFile "$TempPath\KVRT.exe"
+		Write-Host "Running Kaspersky Virus Removal Tool"
+		Start-Process $TempPath\KVRT.exe -d "$RawLogPath" -accepteula -adinsilent -silent -processlevel 2 -dontcryptsupportinfo
+	}
 
 # Sophos Virus Removal Tool
 <# DISABLING -- THIS NEEDS INSTALLATION ??
