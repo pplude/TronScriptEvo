@@ -30,8 +30,23 @@ param (
     [switch]$acceptEULA = $false,
 	[switch]$skipAV = $false,
 	[switch]$skipWU = $false,
-	[switch]$skipReg = $false
+	[switch]$skipReg = $false,
+	[switch]$help = $false,
+	[switch]$h = $false
 )
+
+if($help)
+	{
+		Write-Host(" TronScriptEvo ver. $ScriptVersion
+		Usage: .\Core -acceptEula -skipAV -skipWU -skipReg -help
+		
+		-acceptEula  Autoaccept EULA
+		-skipAV      Skip Disinfect Stage
+		-skipWU      Skip Windows Updates
+		-skipReg     Skip File Permission Reset
+		-help        Display this help.")
+		[Environment]::Exit(5)
+	}
 
 ######################
 ##  .NET LIBRARIES  ##
