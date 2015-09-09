@@ -27,8 +27,10 @@
 #>
 
 param (
-    [switch]$acceptEULA = $false
-	[switch]$skipAV = $false
+    [switch]$acceptEULA = $false,
+	[switch]$skipAV = $false,
+	[switch]$skipWU = $false,
+	[switch]$skipReg = $false
 )
 
 ######################
@@ -72,7 +74,7 @@ If (!([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]
 $Host.UI.RawUI.BackgroundColor = ($bkgrnd = 'Red')
 $Host.UI.RawUI.WindowTitle = ("TRON:Evo $ScriptVersion ($ScriptDate)")
 Clear-Host
-if($acceptEULA -eq $true)
+if(-Not $acceptEULA)
     {
 		Write-Host "
 		************************** ANNOYING DISCLAIMER **************************
@@ -216,7 +218,7 @@ Write-Host "Downloaded All Tron:Evo Components"
 .\Stage0.ps1 | Out-Null
 .\Stage1.ps1 | Out-Null
 .\Stage2.ps1 | Out-Null
-if($skipAV -eq $true)
+if(-Not $skipAV)
     {
 		.\Stage3.ps1 | Out-Null
 	}
