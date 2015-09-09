@@ -26,6 +26,11 @@
 					6 - Bad Admin Rights
 #>
 
+param (
+    [switch]$acceptEULA = $false
+	[switch]$skipAV = $false
+)
+
 ######################
 ##  .NET LIBRARIES  ##
 ######################
@@ -67,31 +72,34 @@ If (!([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]
 $Host.UI.RawUI.BackgroundColor = ($bkgrnd = 'Red')
 $Host.UI.RawUI.WindowTitle = ("TRON:Evo $ScriptVersion ($ScriptDate)")
 Clear-Host
-Write-Host "
-************************** ANNOYING DISCLAIMER **************************
-* NOTE: By running Tron you accept COMPLETE responsibility for ANYTHING * 
-* that happens. Although the chance of something bad happening due to   * 
-* Tron is pretty remote, it's always a possibility, and Tron has ZERO   * 
-* WARRANTY for ANY purpose. READ THE INSTRUCTIONS and understand what   * 
-* Tron does, because you run it AT YOUR OWN RISK.                       * 
-*                                                                       * 
-* Tron.PS1 and the supporting code and scripts I've written are free    * 
-* and open-source under the MIT License. All 3rd-party tools Tron calls * 
-* (MBAM, KVRT, etc) are bound by their respective licenses. It is       * 
-* YOUR RESPONSIBILITY to determine if you have the rights to use these  * 
-* tools in whatever environment you're in.                              * 
-*                                                                       * 
-* BOTTOM LINE: there is NO WARRANTY, you are ON YOUR OWN, and anything  * 
-* that happens, good or bad, is YOUR RESPONSIBILITY.                    * 
-************************************************************************* 
+if($acceptEULA -eq $true)
+    {
+		Write-Host "
+		************************** ANNOYING DISCLAIMER **************************
+		* NOTE: By running Tron you accept COMPLETE responsibility for ANYTHING * 
+		* that happens. Although the chance of something bad happening due to   * 
+		* Tron is pretty remote, it's always a possibility, and Tron has ZERO   * 
+		* WARRANTY for ANY purpose. READ THE INSTRUCTIONS and understand what   * 
+		* Tron does, because you run it AT YOUR OWN RISK.                       * 
+		*                                                                       * 
+		* Tron.PS1 and the supporting code and scripts I've written are free    * 
+		* and open-source under the MIT License. All 3rd-party tools Tron calls * 
+		* (MBAM, KVRT, etc) are bound by their respective licenses. It is       * 
+		* YOUR RESPONSIBILITY to determine if you have the rights to use these  * 
+		* tools in whatever environment you're in.                              * 
+		*                                                                       * 
+		* BOTTOM LINE: there is NO WARRANTY, you are ON YOUR OWN, and anything  * 
+		* that happens, good or bad, is YOUR RESPONSIBILITY.                    * 
+		************************************************************************* 
 
-Type I AGREE (all caps) to accept this and go to the main menu, or 
-press CTRL+C to cancel. `n `n `n"
+		Type I AGREE (all caps) to accept this and go to the main menu, or 
+		press CTRL+C to cancel. `n `n `n"
 
-$EULA = Read-Host
-If ($EULA -ne "I AGREE")
-	{
-		[Environment]::Exit(5)
+		$EULA = Read-Host
+		If ($EULA -ne "I AGREE")
+			{
+				[Environment]::Exit(5)
+			}
 	}
 	
 # Set the screen back to normal
@@ -208,7 +216,10 @@ Write-Host "Downloaded All Tron:Evo Components"
 .\Stage0.ps1 | Out-Null
 .\Stage1.ps1 | Out-Null
 .\Stage2.ps1 | Out-Null
-.\Stage3.ps1 | Out-Null
+if($skipAV -eq $true)
+    {
+		.\Stage3.ps1 | Out-Null
+	}
 .\Stage4.ps1 | Out-Null
 .\Stage5.ps1 | Out-Null
 .\Stage6.ps1 | Out-Null
