@@ -17,6 +17,7 @@
 					
 	EXIT CODES:		0 - Script ran successfully
 					1 - Powershell Error
+					2 - Restart Script for Updates
 					4 - Safe mode failure
 					5 - Bad EULA
 					6 - Bad Admin Rights

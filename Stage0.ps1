@@ -41,9 +41,21 @@ else
 	Write-Host "Chocolatey has been installed"
 }
 
+#####################
+##  ENABLE WMF V4  ##
+#####################
+
 #########################
 ##  ENABLE F8 AT BOOT  ##
 #########################
+
+
+If ($WindowsNTVersion -eq '7')
+	{
+		choco.exe upgrade powershell4 -y | Out-Null
+		Start-Process powershell .\Core.ps1
+		[Environment]::Exit(2)
+	}
 
 
 If ($WindowsNTVersion -eq '8')
