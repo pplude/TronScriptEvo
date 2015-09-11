@@ -6,15 +6,11 @@
 	AUTHOR: 		Based on TRON script batch file by vocatus on /r/TronScript
 					Initial port to PowerShell by pplude on /r/TronScriptEvo
 	
-	VERSION:		Initial Version 0.9.0
+	VERSION:		Initial Version 0.9.1
 						
-	USAGE:			Set the Execution Policy, run as Admin, and reboot
+	USAGE:			Set the Execution Policy, run as Admin
 	
-	NOTES:			BATCH version has command line flags that I am omitting for
-					this initial version. That may be implemented at a 
-					different time. 
-					
-					This script relies heavily on WMI. This is done on purpose.
+	NOTES:			This script relies heavily on WMI. This is done on purpose.
 					With Windows 8 and above, if WMI is broken, even attempting
 					to fix the system is not worth the time. Use the "Reset this
 					PC" if things are truly that bad.
@@ -56,11 +52,10 @@ Param([Switch] $Automatic,
 ##  GLOBAL VARIABLES  ##
 ########################
 
-$ScriptVersion = "0.9.0" # Major.Minor.Errata
+$ScriptVersion = "0.9.1" # Major.Minor.Errata
 $ScriptDate = "2015-09-11" # Commit date for Core.PS1, YYYY-MM-DD
 
 $EvoRepo = "https://raw.githubusercontent.com/pplude/TronScriptEvo/master" # USE THIS FOR RELEASE VERSION
-#$EvoRepo = "https://raw.githubusercontent.com/pplude/TronScriptEvo/WIP" # USE THIS FOR DEV VERSION
 
 $RunTime = $((Get-Date).ToString("MMdd-hm")) # Time the script is called, MMdd-hm
 $WindowsVersion = (Get-WmiObject Win32_OperatingSystem | Select-Object Caption | foreach {$_.Caption}) # Returns friendly name
