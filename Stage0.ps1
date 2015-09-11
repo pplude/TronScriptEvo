@@ -59,11 +59,8 @@ Write-Host (Get-WmiObject Win32_DiskDrive | Select-Object Index,Status,StatusInf
 $DriveStat = (Get-WmiObject Win32_DiskDrive | Select-Object Status | foreach {$_.Status})
 If (($DriveStat -eq "Error") -or ($DriveStat -eq "Degraded") -or ($DriveStat -eq "Unknown") -or ($DriveStat -eq "PredFail") -or ($DriveStat -eq "Service") -or ($DriveStat -eq "Stressed") -or ($DriveStat -eq "NonRecover"))
 	{
-		Write-Host "! WARNING! SMART check indicates at least one drive with $DriveStat status
-SMART errors can mean a drive is close to failure, be careful
-running disk-intensive operations like defrag.
-
-		" 
+		[System.Windows.Forms.MessageBox]::Show("SMART check indicates at least one drive with $DriveStat status. SMART errors can mean a drive is close to failure, be careful running disk-intensive operations like defrag.","WARNING")
+		$SkipOptimizeC -eq "True"
 	}
 	
 ############################

@@ -6,7 +6,7 @@
 	AUTHOR: 		Based on TRON script batch file by vocatus on /r/TronScript
 					Initial port to PowerShell by pplude on /r/TronScriptEvo
 	
-	VERSION:		Initial Version 0.8.2
+	VERSION:		Initial Version 0.9.0
 						
 	USAGE:			Set the Execution Policy, run as Admin, and reboot
 	
@@ -56,8 +56,8 @@ Param([Switch] $Automatic,
 ##  GLOBAL VARIABLES  ##
 ########################
 
-$ScriptVersion = "0.8.2" # Major.Minor.Errata
-$ScriptDate = "2015-08-28" # Commit date for Core.PS1, YYYY-MM-DD
+$ScriptVersion = "0.9.0" # Major.Minor.Errata
+$ScriptDate = "2015-09-11" # Commit date for Core.PS1, YYYY-MM-DD
 
 $EvoRepo = "https://raw.githubusercontent.com/pplude/TronScriptEvo/master" # USE THIS FOR RELEASE VERSION
 #$EvoRepo = "https://raw.githubusercontent.com/pplude/TronScriptEvo/WIP" # USE THIS FOR DEV VERSION
