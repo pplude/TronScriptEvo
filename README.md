@@ -10,21 +10,21 @@ I'm Using Dell PowerGUI to develop the script. This will eventually allow me to 
  3. Run Core.ps1 in an administrative Powershell instance
 
 ### Optional flags (can be combined):
- -Automatic   Automatic mode (no welcome screen or prompts)
- -PreserveXAML   Preserve OEM Metro apps (don't remove them)
- -Shutdown   Power off after running (overrides -Reboot)
- -Reboot   Reboot automatically (auto-reboot 30 seconds after completion)
- -SkipAV  Skip anti-virus scans (MBAM, KVRT, Sophos)
- -SkipDebloat  Skip de-bloat (OEM bloatware removal)
- -SkipOptimizeC  Skip defrag (force Tron to ALWAYS skip Stage 5 defrag)
- -PreserveEventLog Skip Event Log clearing
- -SkipKaspersky  Skip Kaspersky Virus Rescue Tool (KVRT) scan
- -SkipMalwareBytes  Skip Malwarebytes Anti-Malware (MBAM) installation
- -SkipPatches  Skip patches (do not patch 7-Zip, Java Runtime, Adobe Flash or Reader)
- -SkipPermissionsReset Skip settings reset (don't set to "Let Windows manage the page file")
- -SkipSophos  Skip Sophos Anti-Virus (SAV) scan
- -PreserveTelemetry Skip Telemetry Removal (don't remove Windows user tracking, Win8 and up only)
- -SkipWinUpdate  Skip Windows Updates (do not attempt to run Windows Update)
+ - `-Automatic`               *Automatic mode (no welcome screen or prompts)*
+ - `-PreserveXAML`            *Preserve OEM Metro apps (don't remove them)*
+ - `-Shutdown`                *Power off after running (overrides -Reboot)*
+ - `-Reboot`                  *Reboot automatically (auto-reboot 30 seconds after completion)*
+ - `-SkipAV`                  *Skip anti-virus scans (MBAM, KVRT, Sophos)*
+ - `-SkipDebloat`             *Skip de-bloat (OEM bloatware removal)*
+ - `-SkipOptimizeC`           *Skip defrag (force Tron to ALWAYS skip Stage 5 defrag)*
+ - `-PreserveEventLog`        *Skip Event Log clearing* 
+ - `-SkipKaspersky`           *Skip Kaspersky Virus Rescue Tool (KVRT) scan*
+ - `-SkipMalwareBytes`        *Skip Malwarebytes Anti-Malware (MBAM) installation*
+ - `-SkipPatches`             *Skip patches (do not patch 7-Zip, Java Runtime, Adobe Flash or Reader)*
+ - `-SkipPermissionsReset`    *Skip settings reset (don't set to "Let Windows manage the page file")*
+ - `-SkipSophos`              *Skip Sophos Anti-Virus (SAV) scan*
+ - `-PreserveTelemetry`       *Skip Telemetry Removal (don't remove Windows user tracking, Win8 and up only)*
+ - `-SkipWinUpdate`           *Skip Windows Updates (do not attempt to run Windows Update)*
 
  
 ### Stages:
