@@ -29,7 +29,9 @@
 ##################
 ##  PARAMETERS  ##
 ##################
-Param([Switch] $SkipKaspersky)
+
+Param([Switch] $SkipKaspersky,
+		[Switch] $Automatic)
 
 ######################
 ##  .NET LIBRARIES  ##
@@ -69,53 +71,60 @@ If (!([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]
 ##  DISCLAIMER SCREENS  ##
 ##########################
 
-$Host.UI.RawUI.BackgroundColor = ($bkgrnd = 'Red')
-$Host.UI.RawUI.WindowTitle = ("TRON:Evo $ScriptVersion ($ScriptDate)")
-Clear-Host
-Write-Host "
-************************** ANNOYING DISCLAIMER **************************
-* NOTE: By running Tron you accept COMPLETE responsibility for ANYTHING * 
-* that happens. Although the chance of something bad happening due to   * 
-* Tron is pretty remote, it's always a possibility, and Tron has ZERO   * 
-* WARRANTY for ANY purpose. READ THE INSTRUCTIONS and understand what   * 
-* Tron does, because you run it AT YOUR OWN RISK.                       * 
-*                                                                       * 
-* Tron.PS1 and the supporting code and scripts I've written are free    * 
-* and open-source under the MIT License. All 3rd-party tools Tron calls * 
-* (MBAM, KVRT, etc) are bound by their respective licenses. It is       * 
-* YOUR RESPONSIBILITY to determine if you have the rights to use these  * 
-* tools in whatever environment you're in.                              * 
-*                                                                       * 
-* BOTTOM LINE: there is NO WARRANTY, you are ON YOUR OWN, and anything  * 
-* that happens, good or bad, is YOUR RESPONSIBILITY.                    * 
-************************************************************************* 
-
-Type I AGREE (all caps) to accept this and go to the main menu, or 
-press CTRL+C to cancel. `n `n `n"
-
-$EULA = Read-Host
-If ($EULA -ne "I AGREE")
+If ($Automatic.IsPresent -ne "True")
 	{
-		[Environment]::Exit(5)
+		$Host.UI.RawUI.BackgroundColor = ($bkgrnd = 'Red')
+		$Host.UI.RawUI.WindowTitle = ("TRON:Evo $ScriptVersion ($ScriptDate)")
+		Clear-Host
+		Write-Host "
+			************************** ANNOYING DISCLAIMER **************************
+			* NOTE: By running Tron you accept COMPLETE responsibility for ANYTHING * 
+			* that happens. Although the chance of something bad happening due to   * 
+			* Tron is pretty remote, it's always a possibility, and Tron has ZERO   * 
+			* WARRANTY for ANY purpose. READ THE INSTRUCTIONS and understand what   * 
+			* Tron does, because you run it AT YOUR OWN RISK.                       * 
+			*                                                                       * 
+			* Tron.PS1 and the supporting code and scripts I've written are free    * 
+			* and open-source under the MIT License. All 3rd-party tools Tron calls * 
+			* (MBAM, KVRT, etc) are bound by their respective licenses. It is       * 
+			* YOUR RESPONSIBILITY to determine if you have the rights to use these  * 
+			* tools in whatever environment you're in.                              * 
+			*                                                                       * 
+			* BOTTOM LINE: there is NO WARRANTY, you are ON YOUR OWN, and anything  * 
+			* that happens, good or bad, is YOUR RESPONSIBILITY.                    * 
+			************************************************************************* 
+
+			Type I AGREE (all caps) to accept this and go to the main menu, or 
+			press CTRL+C to cancel. `n `n `n"
+
+		$EULA = Read-Host
+		If ($EULA -ne "I AGREE")
+			{
+				[Environment]::Exit(5)
+			}
+	
+		# Set the screen back to normal
+		$Host.UI.RawUI.BackgroundColor = ($bkgrnd = 'Black')
+		Clear-Host	
 	}
-	
-# Set the screen back to normal
-$Host.UI.RawUI.BackgroundColor = ($bkgrnd = 'Black')
-Clear-Host
-	
+
 <# At this point we are assuming that the EULA has been accepted. If it has not
 	nothing below this line should run. The rest of this section will determine
 	if the script can run, and will boot the user out of TRON:Evo if they are in
 	Safe Mode without Networking. Tron:Evo relies on downloads from the internet
-	and will not work without an internet connection! #>	
+	and will not work without an internet connection! #>
 	
 # Check to see if we are running in safe mode
 
-If ($SafeMode -eq "Normal Boot")
+If ($Automatic.IsPresent -ne "True")
 	{
-		[System.Windows.Forms.MessageBox]::Show("The system is not in safe mode. Tron functions best in Safe Mode with Networking in order to download Windows and anti-virus updates. `n `n Tron should still run OK, but if you have infections or problems after running, recommend booting to Safe Mode with Networking and re-running.", "WARNING") | Out-Null
+		If ($SafeMode -eq "Normal Boot")
+			{
+				[System.Windows.Forms.MessageBox]::Show("The system is not in safe mode. Tron functions best in Safe Mode with Networking in order to download Windows and anti-virus updates. `n `n Tron should still run OK, but if you have infections or problems after running, recommend booting to Safe Mode with Networking and re-running.", "WARNING") | Out-Null
+			}
 	}
 	
+<# Keeping this here even in Automatic mode, so it quits if we can't download stages #>
 If ($SafeMode -eq "Fail-safe boot")
 	{
 		[System.Windows.Forms.MessageBox]::Show("The system is in Safe Mode without Network support. Tron:Evo does not function in this mode. Please boot into Windows normally or using the Safe Mode with Networking option." , "ERROR") | Out-Null
@@ -141,23 +150,26 @@ $SummaryLogPath = "$RootPath\Summary"
 ##  WELCOME SCREEN  ##
 ######################
 
-Clear-Host
-Write-Host "
-**********************  TRON v$ScriptVersion ($ScriptDate)  *********************
-* Script to automate a series of cleanup/disinfection tools           *
-* Author: pplude on reddit.com/r/TronScriptEvo                        *
-*                                                                     *
-* Stage:        Tools:                                                *
-*  0 Prep:      Create SysRestore point/Rkill/ProcessKiller/Stinger/  *
-*               TDSSKiller/registry backup/clean oldest VSS set       *
-*  1 TempClean: TempFileClean/BleachBit/CCleaner/IE & EvtLogs clean   *
-*  2 De-bloat:  Remove OEM bloatware, remove Metro bloatware          *
-*  3 Disinfect: RogueKiller/Sophos/KVRT/MBAM/DISM repair              *
-*  4 Repair:    RegPerms reset/Fileperms reset/chkdsk/SFC scan        *
-*  5 Patch:     Update 7-Zip/Java/Flash/Windows, reset DISM base      *
-*  6 Optimize:  defrag $env:SYSTEMDRIVE (mechanical only, SSDs skipped)             *
-*  7 Wrap-up:   collect misc logs, send email report (if requested)   *
-*********************************************************************** `r`n`r`n"
+If ($Automatic.IsPresent -ne "True")
+	{
+		Clear-Host
+		Write-Host "
+			**********************  TRON v$ScriptVersion ($ScriptDate)  *********************
+			* Script to automate a series of cleanup/disinfection tools           *
+			* Author: pplude on reddit.com/r/TronScriptEvo                        *
+			*                                                                     *
+			* Stage:        Tools:                                                *
+			*  0 Prep:      Create SysRestore point/Rkill/ProcessKiller/Stinger/  *
+			*               TDSSKiller/registry backup/clean oldest VSS set       *
+			*  1 TempClean: TempFileClean/BleachBit/CCleaner/IE & EvtLogs clean   *
+			*  2 De-bloat:  Remove OEM bloatware, remove Metro bloatware          *
+			*  3 Disinfect: RogueKiller/Sophos/KVRT/MBAM/DISM repair              *
+			*  4 Repair:    RegPerms reset/Fileperms reset/chkdsk/SFC scan        *
+			*  5 Patch:     Update 7-Zip/Java/Flash/Windows, reset DISM base      *
+			*  6 Optimize:  defrag $env:SYSTEMDRIVE (mechanical only, SSDs skipped)             *
+			*  7 Wrap-up:   collect misc logs, send email report (if requested)   *
+			*********************************************************************** `r`n`r`n"
+	}
 
 ####################
 ##  LOG CREATION  ##
