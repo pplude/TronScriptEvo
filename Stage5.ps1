@@ -1,4 +1,4 @@
-####################
+		####################
 ##  WINDOW SETUP  ##
 ####################
 Clear-Host
@@ -17,13 +17,29 @@ Write-Host "Alowing MSI in safe mode"
 reg add "HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot\$SafeMode\MSIServer" /ve /t reg_sz /d Service /f
 
 # Chocolatey to the rescue - Update Apps
-Write-Host "Updating Apps"
-choco.exe upgrade 7zip flashplayerplugin adobereader jre8 -y
+If ($SkipPatches.IsPresent)
+	{
+		Write-Host "Skip Patches Selected...Moving on."
+	}
+Else
+	{
+		Write-Host "Updating Apps"
+		choco.exe upgrade 7zip flashplayerplugin adobereader jre8 -y
+	}
 
 # Windows Updates
-Write-Host "Running Windows Update"
-wuauclt /detectnow /updatenow
-Write-Host "Fixing the Windows Update datastore"
+If ($SkipWinUpdate.IsPresent)
+	{
+		Write-Host "Skipping Windows Updates"
+	}
+Else
+	{
+		Write-Host "Running Windows Update"
+		wuauclt /detectnow /updatenow
+		Write-Host "Fixing the Windows Update datastore"
+	}
+	
+# DSIM Cleanup	
 Dism /online /Cleanup-Image /StartComponentCleanup /ResetBase /Logpath:"$LogPath\tron_dism_base_reset.log"
 
 ###########################

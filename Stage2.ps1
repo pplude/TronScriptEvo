@@ -223,11 +223,19 @@ rd /s /q C:\dell\dbrm
 ##  Metro Apps  ##
 ##################
 
-reg.exe add "HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot\%SAFEBOOT_OPTION%\AppXSVC" /ve /t reg_sz /d Service /f
-net start AppXSVC
-<# Will need to fix this, please do not use
-Get-AppXProvisionedPackage -online | Remove-AppxProvisionedPackage -online 2>&1 | Out-Null
-Get-AppxPackage -AllUsers | Remove-AppxPackage 2>&1 | Out-Null #>
+If ($PreserveXAML.IsPresent)
+	{
+		Write-Host "XAML Apps will not be removed...Moving on"
+	}
+Else
+	{
+		reg.exe add "HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot\%SAFEBOOT_OPTION%\AppXSVC" /ve /t reg_sz /d Service /f
+		net start AppXSVC
+		<# Will need to fix this, please do not use #>
+		Write-Host "There is currently an issue with XAML applications and Windows 10, will fix in a future release"
+		# Get-AppXProvisionedPackage -online | Remove-AppxProvisionedPackage -online 2>&1 | Out-Null
+		# Get-AppxPackage -AllUsers | Remove-AppxPackage 2>&1 | Out-Null #>
+	}
 
 Dism /Online /Cleanup-Image /StartComponentCleanup /Logpath:"$LogPath\tron_dism.log"
 

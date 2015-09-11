@@ -69,9 +69,17 @@ Get-EventLog System >> $BackupPath\EventSystem.txt
 Get-EventLog Application >> $BackupPath\EventApplication.txt
 Get-EventLog Security >> $BackupPath\EventSecurity.txt
 Write-Host "Done backing up, clearing"
-Clear-EventLog System
-Clear-EventLog Application
-Clear-EventLog Security
+
+If ($PreserveEventLog.IsPresent)
+	{
+		Write-Host "Preserving Event Logs"
+	}
+Else
+	{
+		Clear-EventLog System
+		Clear-EventLog Application
+		Clear-EventLog Security
+	}
 
 # Clear Windows Update Cache
 Write-Host "Clearing the Windows Update Cache"

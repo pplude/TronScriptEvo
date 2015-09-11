@@ -30,8 +30,21 @@
 ##  PARAMETERS  ##
 ##################
 
-Param([Switch] $SkipKaspersky,
-		[Switch] $Automatic)
+Param([Switch] $Automatic,
+		[Switch] $SkipAV,
+		[Switch] $SkipDebloat,
+		[Switch] $PreserveXAML,
+		[Switch] $PreserveEventLog,
+		[Switch] $SkipPermissionsReset,
+		[Switch] $SkipKaspersky,
+		[Switch] $SkipMBAM,
+		[Switch] $SkipSophos,
+		[Switch] $SkipPatches,
+		[Switch] $SkipWinUpdate,
+		[Switch] $SkipOptimizeC,
+		[Switch] $PreserveTelemetry,
+		[Switch] $Reboot,
+		[Switch] $Shutdown)
 
 ######################
 ##  .NET LIBRARIES  ##
@@ -202,10 +215,19 @@ Write-Host "Downloading Stage 0 - Prep"
 Invoke-WebRequest "$EvoRepo/Stage0.ps1" -OutFile .\Stage0.ps1
 Write-Host "Downloading Stage 1 - Temp Clean"
 Invoke-WebRequest "$EvoRepo/Stage1.ps1" -OutFile .\Stage1.ps1
-Write-Host "Downloading Stage 2 - Debloat"
-Invoke-WebRequest "$EvoRepo/Stage2.ps1" -OutFile .\Stage2.ps1
-Write-Host "Downloading Stage 3 - Disinfect"
-Invoke-WebRequest "$EvoRepo/Stage3.ps1" -OutFile .\Stage3.ps1
+
+If ($SkipDebloat.IsPresnet -eq "False"
+	{
+		Write-Host "Downloading Stage 2 - Debloat"
+		Invoke-WebRequest "$EvoRepo/Stage2.ps1" -OutFile .\Stage2.ps1
+	}
+
+If ($SkipAV.IsPresent -eq "False")
+	{
+		Write-Host "Downloading Stage 3 - Disinfect"
+		Invoke-WebRequest "$EvoRepo/Stage3.ps1" -OutFile .\Stage3.ps1
+	}
+
 Write-Host "Downloading Stage 4 - Repair"
 Invoke-WebRequest "$EvoRepo/Stage4.ps1" -OutFile .\Stage4.ps1
 Write-Host "Downloading Stage 5 - Patch"
@@ -224,8 +246,17 @@ Write-Host "Downloaded All Tron:Evo Components"
 
 .\Stage0.ps1 | Out-Null
 .\Stage1.ps1 | Out-Null
-.\Stage2.ps1 | Out-Null
-.\Stage3.ps1 | Out-Null
+
+If ($SkipDebloat.IsPresent -eq "False")
+	{
+		.\Stage2.ps1 | Out-Null
+	}
+
+If ($SkipAV.IsPresent -eq "False"
+	{
+		.\Stage3.ps1 | Out-Null
+	}
+
 .\Stage4.ps1 | Out-Null
 .\Stage5.ps1 | Out-Null
 .\Stage6.ps1 | Out-Null
@@ -244,3 +275,25 @@ Remove-Item .\Stage5.ps1 -Force
 Remove-Item .\Stage6.ps1 -Force
 Remove-Item .\Stage7.ps1 -Force
 Remove-Item .\AppsByName.txt -Force
+
+If ($Reboot.IsPresent)
+	{
+		If ($Shutdown.IsPresent)
+			{
+				Write-Host "Shutting Down Computer"
+				Stop-Transcript
+				Stop-Computer
+			}
+		Else
+			{
+				Write-Host "Restarting Computer in 30 Seconds"
+				Stop-Transcript
+				Restart-Computer -Timeout 30
+			}
+	}
+Else
+	{
+		Write-Host "TRON:Evo completed"
+		Stop-Transcript
+		[Environment]::Exit(0)
+	}

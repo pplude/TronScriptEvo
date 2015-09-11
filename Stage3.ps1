@@ -34,19 +34,26 @@ Write-Host "Running RogueKiller - This will open a new Window"
 Start-Process $TempPath\Rogue.exe
 
 # MalwareBytes
-Write-Host "Updating Malwarebytes"
-choco.exe upgrade malwarebytes -y
-Write-Host "Running Malwarebytes - This will open a new Window"
-Start-Process "C:\Program Files (x86)\Malwarebytes Anti-Malware\mbam.exe"
-Write-Host "You MUST click SCAN in the window! `n `n"
+If ($SkipMBAM.IsPresent)
+	{
+		Write-Host "Skip Malwarebytes Selected...Moving on"
+	}
+Else
+	{
+		Write-Host "Updating Malwarebytes"
+		choco.exe upgrade malwarebytes -y
+		Write-Host "Running Malwarebytes - This will open a new Window"
+		Start-Process "C:\Program Files (x86)\Malwarebytes Anti-Malware\mbam.exe"
+		Write-Host "You MUST click SCAN in the window! `n `n"
+	}
 
+# Kaspersky Virus Removal Tool
 If ($SkipKaspersky.IsPresent)
 	{
 		Write-Host "Skip Kaspersky Selected...Moving on"
 	}
 Else
 	{
-		# Kaspersky Virus Removal Tool
 		Write-Host "Downloading Kaspersky Virus Removal Tool"
 		Invoke-WebRequest "http://devbuilds.kaspersky-labs.com/devbuilds/KVRT/latest/full/KVRT.exe" -OutFile "$TempPath\KVRT.exe"
 		Write-Host "Running Kaspersky Virus Removal Tool"
@@ -54,12 +61,19 @@ Else
 	}
 
 # Sophos Virus Removal Tool
-<# DISABLING -- THIS NEEDS INSTALLATION ??
-Write-Host "Downloading Sophos Virus Removal Tool"
-Invoke-WebRequest "http://downloads.sophos.com/tools/withides/Sophos%20Virus%20Removal%20Tool.exe" -OutFile "$TempPath\Sophos.exe"
-Write-Host "Running Sohpos Virus Removal Tool `n `n"
-& $TempPath\Sophos.exe -yes
-#>
+If ($SkipSophos.IsPresent)
+	{
+		Write-Host "Skip Sophos Selected...Moving on"
+	}
+Else
+	{
+		Write-Host "There is an issue with the Sophos scanner, will fix in a future version"
+		<# DISABLING -- THIS NEEDS INSTALLATION #>
+		# Write-Host "Downloading Sophos Virus Removal Tool"
+		# Invoke-WebRequest "http://downloads.sophos.com/tools/withides/Sophos%20Virus%20Removal%20Tool.exe" -OutFile "$TempPath\Sophos.exe"
+		# Write-Host "Running Sohpos Virus Removal Tool `n `n"
+		# & $TempPath\Sophos.exe -yes
+	}
 
 ###########################
 ##    STAGE 3 COMPLETE   ##

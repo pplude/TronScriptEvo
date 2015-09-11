@@ -29,8 +29,49 @@ WMIC.exe computersystem set AutomaticManagedPagefile=True
     -Analyze -SlabConsolidate -Retrim.
     -- SSD without TRIM support, Removable FAT, Unknown. No operation. #>
 	
-Optimize-Volume C
+If ($SkipOptimizeC.IsPresent)
+	{
+		Write-Host "Skipping Optimization of Drive C:\ ... Moving on."
+	}
+Else
+	{
+		Optimize-Volume C
+	}
+	
+#####################################
+##  WINDOWS 8.1 TELEMETRY REMOVAL  ##
+#####################################
 
+If ($WindowsNTVersion -eq '8')
+	{
+		If ($PreserveTelemetry.IsPresent
+			{
+				Write-Host "Preserving Windows Telemetry Updates"
+			}
+		Else
+			{
+				WUSA.EXE /uninstall /kb:2976978 /quiet /norestart
+				WUSA.EXE /uninstall /kb:3022345 /quiet /norestart
+				WUSA.EXE /uninstall /kb:3068708 /quiet /norestart
+				WUSA.EXE /uninstall /kb:3080149 /quiet /norestart
+				WUSA.EXE /uninstall /kb:3021917 /quiet /norestart
+				WUSA.EXE /uninstall /kb:3075249 /quiet /norestart
+				WUSA.EXE /uninstall /kb:3035583 /quiet /norestart
+				WUSA.EXE /uninstall /kb:3044374 /quiet /norestart
+				WUSA.EXE /uninstall /kb:971033 /quiet /norestart
+			}
+	}
+
+If (PreserveTelemetry.IsPresent)
+	{
+		Write-Host "Preserving the DiagTrack Service"
+	}
+Else
+	{
+		Write-Host "Deleting the DiagTrack Service"
+		SC.EXE stop DiagTrack
+		SC.EXE delete DiagTrack
+	}
 
 ###########################
 ##    STAGE 6 COMPLETE   ##

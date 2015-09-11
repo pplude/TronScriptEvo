@@ -23,9 +23,16 @@ If ($LASTEXITCODE -ne 0)
 	
 
 # Reset File System Permissions
-Write-Host "Fixing Filesystem Permissions"
-ICACLS.EXE C:\Windows /grant Administrators:F /t /c
-ICACLS.EXE C:\Windows /grant System:F /t /c
+If ($SkipPermissionsReset.IsPresent)
+	{
+		Write-Host "Skipping Permissions Reset...moving on"
+	}
+Else
+	{
+		Write-Host "Fixing Filesystem Permissions"
+		ICACLS.EXE C:\Windows /grant Administrators:F /t /c
+		ICACLS.EXE C:\Windows /grant System:F /t /c
+	}
 
 ## Security database repair
 secedit /configure /cfg C:\Windows\repair\secsetup.inf /db secsetup.sdb /verbose >> "$RawLogPath\secedit_filesystem_reset.log"
