@@ -216,7 +216,7 @@ Invoke-WebRequest "$EvoRepo/Stage0.ps1" -OutFile .\Stage0.ps1
 Write-Host "Downloading Stage 1 - Temp Clean"
 Invoke-WebRequest "$EvoRepo/Stage1.ps1" -OutFile .\Stage1.ps1
 
-If ($SkipDebloat.IsPresnet -eq "False"
+If ($SkipDebloat.IsPresnet -eq "False")
 	{
 		Write-Host "Downloading Stage 2 - Debloat"
 		Invoke-WebRequest "$EvoRepo/Stage2.ps1" -OutFile .\Stage2.ps1
@@ -252,7 +252,7 @@ If ($SkipDebloat.IsPresent -eq "False")
 		.\Stage2.ps1 | Out-Null
 	}
 
-If ($SkipAV.IsPresent -eq "False"
+If ($SkipAV.IsPresent -eq "False")
 	{
 		.\Stage3.ps1 | Out-Null
 	}
