@@ -30,6 +30,7 @@ I'm Using Dell PowerGUI to develop the script. This will eventually allow me to 
 ### Stages:
 *Stage0 | Prep*: 
  1. Install Chocolatey; Download and Install Chocolatey - Used for installation of various softwares
+ 2. Kill all unneeded Processes
  2. Enable F8 at Boot; Enables legacy boot options.
  3. Get SMART Status; Get various details of Physical Drive from S.M.A.R.T.
  4. Create Restore Point
@@ -48,9 +49,8 @@ I'm Using Dell PowerGUI to develop the script. This will eventually allow me to 
  8. Reduce System Restore Space; Reduces used space to 7% by System Restore.
 
 *Stage2 | De-Bloat*:
- 1. Remove Software; Removes software via WMIC by list | See AppsByName.txt
- 2. Remove Apps By GUID; Removes Installed software VIA MSIEXEC based on known GUIDs.
- 3. Cleanup METO Apps?
+ 1. Remove Apps By GUID; Removes Installed software VIA MSIEXEC based on known GUIDs.
+ 2. Cleanup METRO Apps
 
 *Stage3 | Disinfect*:
  1. Run McAfee Stinger; scans for specific malware.
@@ -85,7 +85,4 @@ I'm Using Dell PowerGUI to develop the script. This will eventually allow me to 
  
 # Errata
 * There is no RKill, I don't have a good reposiorty for it
-* Same thing with ProcessKiller, I hope to have these fixed soon!
 * This is NOT reboot safe. Do not restart in the middle or you will have to stop again
-* WMIC is no longer a reliable way to uninstall software. I will work on something new where I can, this may need to move to an outside utility.
-* The Log is wonky, but it works, and is not as verbose as it used to be
