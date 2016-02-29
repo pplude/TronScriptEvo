@@ -1,4 +1,4 @@
-		####################
+####################
 ##  WINDOW SETUP  ##
 ####################
 Clear-Host
@@ -24,7 +24,7 @@ If ($SkipPatches.IsPresent)
 Else
 	{
 		Write-Host "Updating Apps"
-		choco.exe upgrade 7zip flashplayerplugin adobereader jre8 -y
+		Install-Package 7zip,flashplayerplugin,adobereader,jre8 -Force
 	}
 
 # Windows Updates

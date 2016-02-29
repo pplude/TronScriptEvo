@@ -15,31 +15,8 @@ Write-Host "----------------------------"
 # Restore power settings
 Write-Host "Quitting Caffeine"
 TASKKILL.EXE /IM caffeine.exe #This is more reliable then using the PID
+Uninstall-Package Caffeine
 
-##########################
-## UNINSTALL CHOCOLATEY ##
-##########################
-$chocoDirectory = "C:\ProgramData\chocolatey\" ## Define location for chocolatey
-
-if($chocoUFlag -eq $false) ## Check if Chocolatey should be uninstalled or not.
-{
-    Write-Host "Verifing that Chocolatey is installed." ## Check for Chocolatey Directory. 
-    if(Test-Path($chocoDirectory))
-    {
-        Write-Host "Chocolatey installed. Uninstalling chocolatey..."
-        Get-ChildItem -Path $chocoDirectory -Recurse | Remove-Item -force -recurse -verbose ## Removing Child Items first.
-        Remove-Item $chocoDirectory -force -recurse -verbose ## Now Remove the Parent Directory
-        Write-Host "Chocolatey uninstalled."
-    }
-    else
-    {
-    	Write-Host "Something went wrong or Chocolatey was not found."
-    }
-}
-else
-{
-    Write-Host "Chocolatey was pre-installed. Skipping removal."
-}
 
 # Remove TRON Temp files
 Write-Host "Cleaning TRON:Evo Temp Files"
