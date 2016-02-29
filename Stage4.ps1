@@ -22,31 +22,6 @@ If ($LASTEXITCODE -ne 0)
 	}
 	
 
-# Reset File System Permissions
-If ($SkipPermissionsReset.IsPresent)
-	{
-		Write-Host "Skipping Permissions Reset...moving on"
-	}
-Else
-	{
-		Write-Host "Fixing Filesystem Permissions for Administrators"
-        $ruleAdmin=new-object System.Security.AccessControl.FileSystemAccessRule("Administrators","FullControl","Allow")
-        foreach ($file in $(Get-ChildItem C:\Windows\ -Recurse)) 
-            {
-                $aclAdmin=get-acl $file.FullName
-                $aclAdmin.SetAccessRule($ruleAdmin)
-                Set-Acl $File.Fullname $aclAdmin -ErrorAction SilentlyContinue
-            }
-        Write-Host "Fixing Filesystem Permissions for System"
-        $ruleSystem=new-object System.Security.AccessControl.FileSystemAccessRule("Administrators","FullControl","Allow")
-        foreach ($file in $(Get-ChildItem C:\Windows\ -Recurse)) 
-            {
-                $aclSys=get-acl $file.FullName
-                $aclSys.SetAccessRule($ruleSystem)
-                Set-Acl $File.Fullname $aclSys -ErrorAction SilentlyContinue
-            }
-	}
-
 ## Security database repair
 secedit /configure /cfg C:\Windows\repair\secsetup.inf /db secsetup.sdb /verbose >> "$RawLogPath\secedit_filesystem_reset.log"
 
