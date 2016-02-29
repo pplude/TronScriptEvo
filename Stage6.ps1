@@ -2,7 +2,7 @@
 ##  WINDOW SETUP  ##
 ####################
 Clear-Host
-$Host.UI.RawUI.WindowTitle = ("TRON:Evo Stage 6: Optimize")
+Write-ProgressBar -ProgressBar $TronProgress -Activity "Stage 6: Optimize"
 
 ##################
 ##  LOG HEADER  ##
@@ -13,7 +13,7 @@ Write-Host "      STAGE 6: OPTIMIZE     "
 Write-Host "----------------------------"
 
 # Reset the System page file
-Write-Host "Resetting page file settings to Windows defaults..."
+Write-ProgressBar -ProgressBar $TronProgress -Activity "Stage 6: Optimize" -CurrentOperation "Resetting Page File" -PercentComplete 80
 WMIC.exe computersystem set AutomaticManagedPagefile=True
 
 # Optimize the Volume
@@ -35,5 +35,6 @@ If ($SkipOptimizeC.IsPresent)
 	}
 Else
 	{
-		Optimize-Volume C
+		Write-ProgressBar -ProgressBar $TronProgress -Activity "Stage 6: Optimize" -CurrentOperation "Optimizing C:\" -PercentComplete 82
+        Optimize-Volume C
 	}
