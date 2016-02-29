@@ -23,7 +23,6 @@ I'm Using Dell PowerGUI to develop the script. This will eventually allow me to 
  - `-SkipPatches`             *Skip patches (do not patch 7-Zip, Java Runtime, Adobe Flash or Reader)*
  - `-SkipPermissionsReset`    *Skip settings reset (don't set to "Let Windows manage the page file")*
  - `-SkipSophos`              *Skip Sophos Anti-Virus (SAV) scan*
- - `-PreserveTelemetry`       *Skip Telemetry Removal (don't remove Windows user tracking, Win8 and up only)*
  - `-SkipWinUpdate`           *Skip Windows Updates (do not attempt to run Windows Update)*
 
  
@@ -31,7 +30,6 @@ I'm Using Dell PowerGUI to develop the script. This will eventually allow me to 
 *Stage0 | Prep*: 
  1. Install Chocolatey; Download and Install Chocolatey - Used for installation of various softwares
  2. Kill all unneeded Processes
- 2. Enable F8 at Boot; Enables legacy boot options.
  3. Get SMART Status; Get various details of Physical Drive from S.M.A.R.T.
  4. Create Restore Point
  5. Get System State; Builds a list of applications/software installed on the machine as well as a directory structure of the Users folder.

@@ -60,21 +60,6 @@ Else
 		Start-Process $TempPath\KVRT.exe -d "$RawLogPath" -accepteula -adinsilent -silent -processlevel 2 -dontcryptsupportinfo
 	}
 
-# Sophos Virus Removal Tool
-If ($SkipSophos.IsPresent)
-	{
-		Write-Host "Skip Sophos Selected...Moving on"
-	}
-Else
-	{
-		Write-Host "There is an issue with the Sophos scanner, will fix in a future version"
-		<# DISABLING -- THIS NEEDS INSTALLATION #>
-		# Write-Host "Downloading Sophos Virus Removal Tool"
-		# Invoke-WebRequest "http://downloads.sophos.com/tools/withides/Sophos%20Virus%20Removal%20Tool.exe" -OutFile "$TempPath\Sophos.exe"
-		# Write-Host "Running Sohpos Virus Removal Tool `n `n"
-		# & $TempPath\Sophos.exe -yes
-	}
-
 ###########################
 ##    STAGE 3 COMPLETE   ##
 ###########################
