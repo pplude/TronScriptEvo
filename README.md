@@ -22,7 +22,6 @@ I'm Using Dell PowerGUI to develop the script. This will eventually allow me to 
  - `-SkipMalwareBytes`        *Skip Malwarebytes Anti-Malware (MBAM) installation*
  - `-SkipPatches`             *Skip patches (do not patch 7-Zip, Java Runtime, Adobe Flash or Reader)*
  - `-SkipPermissionsReset`    *Skip settings reset (don't set to "Let Windows manage the page file")*
- - `-SkipSophos`              *Skip Sophos Anti-Virus (SAV) scan*
  - `-SkipWinUpdate`           *Skip Windows Updates (do not attempt to run Windows Update)*
 
  
