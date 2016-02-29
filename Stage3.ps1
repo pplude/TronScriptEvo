@@ -59,7 +59,3 @@ Else
 		Write-Host "Running Kaspersky Virus Removal Tool"
 		Start-Process $TempPath\KVRT.exe -d "$RawLogPath" -accepteula -adinsilent -silent -processlevel 2 -dontcryptsupportinfo
 	}
-
-###########################
-##    STAGE 3 COMPLETE   ##
-###########################

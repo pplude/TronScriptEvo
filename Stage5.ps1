@@ -39,7 +39,3 @@ Else
 	
 # DSIM Cleanup	
 Dism /online /Cleanup-Image /StartComponentCleanup /ResetBase /Logpath:"$LogPath\tron_dism_base_reset.log"
-
-###########################
-##    STAGE 5 COMPLETE   ##
-###########################

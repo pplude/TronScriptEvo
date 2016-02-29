@@ -14,9 +14,8 @@ Write-Host "----------------------------"
 
 # Restore power settings
 Write-Host "Quitting Caffeine"
-TASKKILL.EXE /IM caffeine.exe #This is more reliable then using the PID
+Get-Process caffeine | Stop-Process -Force
 Uninstall-Package Caffeine
-
 
 # Remove TRON Temp files
 Write-Host "Cleaning TRON:Evo Temp Files"
@@ -33,7 +32,3 @@ $((Get-Date).ToString("MMdd-hm"))   TRON v$ScriptVersion ($ScriptDate) complete
                           Safe Mode: $SafeMode
                           Logfile: $LogFile
 -------------------------------------------------------------------------------"
-
-###########################
-##    STAGE 7 COMPLETE   ##
-###########################
