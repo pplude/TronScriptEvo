@@ -34,9 +34,7 @@ If ($SkipWinUpdate.IsPresent)
 	}
 Else
 	{
-		Write-Host "Running Windows Update"
-		wuauclt /detectnow /updatenow
-		Write-Host "Fixing the Windows Update datastore"
+		Get-WUInstall -Verbose -AcceptAll -IgnoreRebootRequired
 	}
 	
 # DSIM Cleanup	
