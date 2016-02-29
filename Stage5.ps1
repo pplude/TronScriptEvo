@@ -16,7 +16,7 @@ Write-Host "----------------------------"
 Write-Host "Alowing MSI in safe mode"
 reg add "HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot\$SafeMode\MSIServer" /ve /t reg_sz /d Service /f
 
-# Chocolatey to the rescue - Update Apps
+# Update Apps
 If ($SkipPatches.IsPresent)
 	{
 		Write-Host "Skip Patches Selected...Moving on."

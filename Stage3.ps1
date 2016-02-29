@@ -41,7 +41,7 @@ If ($SkipMBAM.IsPresent)
 Else
 	{
 		Write-Host "Updating Malwarebytes"
-		choco.exe upgrade malwarebytes -y
+		Install-Package malwarebytes -Force
 		Write-Host "Running Malwarebytes - This will open a new Window"
 		Start-Process "C:\Program Files (x86)\Malwarebytes Anti-Malware\mbam.exe"
 		Write-Host "You MUST click SCAN in the window! `n `n"
