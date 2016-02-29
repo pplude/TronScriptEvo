@@ -25,10 +25,3 @@ Remove-Item $TempPath -Recurse -Force
 
 Clear-Host
 Write-Host "TRON:Evo is complete. Please reboot the computer. `n `n"
-
-Write-Host "-------------------------------------------------------------------------------
-$((Get-Date).ToString("MMdd-hm"))   TRON v$ScriptVersion ($ScriptDate) complete
-                         Executed as "$env:USERNAME" on "$env:COMPUTERNAME"
-                          Safe Mode: $SafeMode
-                          Logfile: $LogFile
--------------------------------------------------------------------------------"

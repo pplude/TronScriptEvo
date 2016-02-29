@@ -26,8 +26,8 @@ If ($LASTEXITCODE -ne 0)
 secedit /configure /cfg C:\Windows\repair\secsetup.inf /db secsetup.sdb /verbose >> "$RawLogPath\secedit_filesystem_reset.log"
 
 # SFC scan
-Write-Host "Fixing SFC"
-sfc.exe /scannow
+Write-Host "Running System File Checker"
+SFC.EXE /SCANNOW
 
 # Check Disk
 chkdsk.exe $env:SYSTEMDRIVE
